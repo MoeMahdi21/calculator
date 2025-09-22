@@ -1,6 +1,35 @@
-let num1 = 5;
-let num2 = 10;
-let operator = '+';
+let num1 = '';
+let num2 = '';
+let operator = '';
+let result = null;
+
+let btn = document.querySelectorAll('.calc-buttons button');
+btn.forEach((item) => {
+  item.addEventListener('click', () => {
+    const display = document.querySelector('.display');
+
+    if (!isNaN(item.id)) {
+      display.textContent += `${item.id}`;
+    } else if (item.id !== 'clear' && item.id !== '=') {
+      if (operator === '') {
+        num1 = Number(display.textContent);
+        operator = item.id;
+        display.textContent = '';
+      } else {
+        num2 = Number(display.textContent);
+        num1 = operate(num1, operator, num2);
+        operator = item.id;
+        display.textContent = `${num1}`;
+      }
+    } else if (item.id === '=') {
+      num2 = Number(display.textContent);
+      result = operate(num1, operator, num2);
+      display.textContent = `${result}`;
+    } else if (item.id === 'clear') {
+      display.textContent = '';
+    }
+  });
+});
 
 function add(num1, num2) {
   return num1 + num2;
@@ -19,6 +48,7 @@ function divide(num1, num2) {
 }
 
 function operate(num1, operator, num2) {
+  console.log(num1, operator, num2);
   if (operator === '+') {
     return add(num1, num2);
   } else if (operator === '-') {
@@ -29,5 +59,3 @@ function operate(num1, operator, num2) {
     return divide(num1, num2);
   }
 }
-
-let result = operate(num1, operator, num1);
