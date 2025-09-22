@@ -1,6 +1,7 @@
 let num1 = '';
 let num2 = '';
 let operator = '';
+let endOfcalcuation = false;
 let result = null;
 
 let btn = document.querySelectorAll('.calc-buttons button');
@@ -9,7 +10,12 @@ btn.forEach((item) => {
     const display = document.querySelector('.display');
 
     if (!isNaN(item.id)) {
-      display.textContent += `${item.id}`;
+      if (endOfcalcuation === true) {
+        display.textContent = `${item.id}`;
+        endOfcalcuation = false;
+      } else {
+        display.textContent += `${item.id}`;
+      }
     } else if (item.id !== 'clear' && item.id !== '=') {
       if (operator === '') {
         num1 = Number(display.textContent);
@@ -25,8 +31,14 @@ btn.forEach((item) => {
       num2 = Number(display.textContent);
       result = operate(num1, operator, num2);
       display.textContent = `${result}`;
+      endOfcalcuation = true;
     } else if (item.id === 'clear') {
       display.textContent = '';
+      num1 = '';
+      num2 = '';
+      operator = '';
+      endOfcalcuation = false;
+      result = null;
     }
   });
 });
